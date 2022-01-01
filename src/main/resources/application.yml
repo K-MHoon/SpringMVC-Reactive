@@ -1,2 +1,13 @@
 server:
   port: 8081
+
+spring:
+  webflux:
+    hiddenmethod:
+      filter:
+        enabled: true
+#  data:
+#    mongodb:
+#      host: localhost
+#      port: 27017
+#      database: reactive
