@@ -13,14 +13,14 @@ import java.util.List;
 public class Cart {
 
     private @Id String id;
-    private List<CartItem> cartItem;
+    private List<CartItem> cartItems;
 
     public Cart(String id) {
         this(id, new ArrayList<>());
     }
 
-    public Cart(String id, List<CartItem> cartItem) {
+    public Cart(String id, List<CartItem> cartItems) {
         this.id = id;
-        this.cartItem = cartItem;
+        this.cartItems = cartItems;
     }
 }

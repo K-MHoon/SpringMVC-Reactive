@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>Hacking with Spring Boot - Getting Started</title>
 </head>
 <body>
+<h1>Welcome to Hacking with Spring Boot!</h1>
+
+<!-- tag::1[] -->
 <h2>Inventory Management</h2>
 <table>
     <thead>
-    <tr>Id</tr>
-    <tr>Name</tr>
-    <tr>Price</tr>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Price</th>
+    </tr>
     </thead>
     <tbody>
     <tr th:each="item : ${items}">
@@ -19,7 +24,7 @@
         <td th:text="${item.price}"></td>
         <td>
             <form method="post" th:action="@{'/add/' + ${item.id}}">
-                <input type="submit" value="Add to Cart"/>
+                <input type="submit" value="Add to Cart" />
             </form>
         </td>
         <td>
@@ -30,20 +35,27 @@
     </tr>
     </tbody>
 </table>
+<!-- end::1[] -->
+
+<!-- tag::2[] -->
 <h2>My Cart</h2>
 <table>
     <thead>
-    <tr>Id</tr>
-    <tr>Name</tr>
-    <tr>Quantity</tr>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Quantity</th>
+    </tr>
     </thead>
     <tbody>
     <tr th:each="cartItem : ${cart.cartItems}">
-        <td th:text="${cartItem.id}"></td>
-        <td th:text="${cartItem.name}"></td>
+        <td th:text="${cartItem.item.id}"></td>
+        <td th:text="${cartItem.item.name}"></td>
         <td th:text="${cartItem.quantity}"></td>
     </tr>
     </tbody>
 </table>
+<!-- end::2[] -->
+
 </body>
 </html>
