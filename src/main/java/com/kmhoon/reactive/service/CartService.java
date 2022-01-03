@@ -20,24 +20,30 @@ public class CartService {
     private final CartRepository cartRepository;
 //    private final ItemByExampleRepository exampleRepository;
 
-    public Mono<Cart> addToCart(String cartId, String id) {
+    public Mono<Cart> addItemToCart(String cartId, String id) {
         return this.cartRepository.findById(cartId)
+                .log("foundCart")
                 .defaultIfEmpty(new Cart(cartId))
+                .log("emptyCart")
                 .flatMap(cart -> cart.getCartItems().stream()
                         .filter(cartItem -> cartItem.getItem()
                                 .getId().equals(id))
                         .findAny()
                         .map(cartItem -> {
                             cartItem.increment();
-                            return Mono.just(cart);
+                            return Mono.just(cart).log("newCartItem");
                         })
                         .orElseGet(() ->
                                 this.itemRepository.findById(id)
+                                        .log("fetchedItem")
                                         .map(CartItem::new)
+                                        .log("cartItem")
                                         .doOnNext(cartItem ->
                                                 cart.getCartItems().add(cartItem))
                                         .map(cartItem -> cart)))
-                .flatMap(this.cartRepository::save);
+                .log("cartWithAnotherItem")
+                .flatMap(this.cartRepository::save)
+                .log("savedCart");
     }
 
     public Flux<Item> searchByExample(String name, String description, boolean useAnd) {
