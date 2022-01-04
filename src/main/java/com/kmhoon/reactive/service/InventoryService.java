@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class CartService {
+public class InventoryService {
 
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;

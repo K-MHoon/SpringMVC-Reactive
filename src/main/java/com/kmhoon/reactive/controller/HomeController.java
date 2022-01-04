@@ -1,10 +1,9 @@
 package com.kmhoon.reactive.controller;
 
 import com.kmhoon.reactive.domain.Cart;
-import com.kmhoon.reactive.domain.CartItem;
 import com.kmhoon.reactive.repository.CartRepository;
 import com.kmhoon.reactive.repository.ItemRepository;
-import com.kmhoon.reactive.service.CartService;
+import com.kmhoon.reactive.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,7 @@ public class HomeController {
 
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;
-    private final CartService cartService;
+    private final InventoryService inventoryService;
 
     @GetMapping
     Mono<Rendering> home() {
@@ -35,7 +34,7 @@ public class HomeController {
 
     @PostMapping("/add/{id}")
     Mono<String> addToCart(@PathVariable String id) {
-        return this.cartService.addItemToCart("My Cart", id)
+        return this.inventoryService.addItemToCart("My Cart", id)
                 .thenReturn("redirect:/");
     }
 
@@ -45,7 +44,7 @@ public class HomeController {
             @RequestParam(required = false) String description,
             @RequestParam boolean useAnd) {
         return Mono.just(Rendering.view("home.html")
-                .modelAttribute("results", this.cartService.searchByExample(name, description, useAnd))
+                .modelAttribute("results", this.inventoryService.searchByExample(name, description, useAnd))
                 .build());
     }
 }
