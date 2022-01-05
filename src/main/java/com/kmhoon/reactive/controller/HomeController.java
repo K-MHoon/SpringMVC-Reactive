@@ -17,17 +17,15 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final ItemRepository itemRepository;
-    private final CartRepository cartRepository;
     private final InventoryService inventoryService;
 
     @GetMapping
     Mono<Rendering> home() {
         return Mono.just(Rendering.view("home.html")
                 .modelAttribute("items",
-                        this.itemRepository.findAll().doOnNext(System.out::println))
+                        this.inventoryService.getInventory().doOnNext(System.out::println))
                 .modelAttribute("cart",
-                        this.cartRepository.findById("My Cart")
+                        this.inventoryService.getCart("My Cart")
                                 .defaultIfEmpty(new Cart("My Cart")))
                 .build());
     }

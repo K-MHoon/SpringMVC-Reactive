@@ -18,7 +18,14 @@ public class InventoryService {
 
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;
-//    private final ItemByExampleRepository exampleRepository;
+
+    public Flux<Item> getInventory() {
+        return this.itemRepository.findAll();
+    }
+
+    public Mono<Cart> getCart(String cartId) {
+        return this.cartRepository.findById(cartId);
+    }
 
     public Mono<Cart> addItemToCart(String cartId, String id) {
         return this.cartRepository.findById(cartId)
