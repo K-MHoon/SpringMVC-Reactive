@@ -1,0 +1,19 @@
+= 스프링 부트 Reactive 프로젝트
+
+ASCII DOC을 테스트하고 있습니다.
+
+스프링 레스트 독을 활용하면 훨씬 쉽게 작업이 가능합니다.
+
+다음 요청을 실행하면 :
+
+include::{snippets}/findAll/curl-request.adoc[]
+
+'ApiItemController'는 다음 응답 본문을 반환합니다.
+
+include::{snippets}/findAll/response-body.adoc[]
+
+HTTPie를 사용한다면 다음 명령을 실행해보세요.
+
+include::{snippets}/findAll/httpie-request.adoc[]
+
+동일한 응답 본문이 반환됩니다. curl과 HTTPie 중 좋아하시는 것을 사용하시면 됩니다.

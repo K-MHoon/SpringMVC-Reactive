@@ -4,6 +4,7 @@ import com.kmhoon.reactive.controller.ApiItemController;
 import com.kmhoon.reactive.domain.Item;
 import com.kmhoon.reactive.repository.ItemRepository;
 import com.kmhoon.reactive.service.InventoryService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +13,18 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
 
 @WebFluxTest(ApiItemController.class)
-@AutoConfigureRestDocs
+@AutoConfigureRestDocs(uriPort = 8081)
 public class ApiItemControllerDocumentationTest {
+
     @Autowired
     private WebTestClient webTestClient;
 
@@ -40,5 +44,18 @@ public class ApiItemControllerDocumentationTest {
                 .expectStatus().isOk()
                 .expectBody()
                 .consumeWith(document("findAll", preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    void postNewItem() {
+        when(repository.save(any())).thenReturn(
+                Mono.just(new Item("1", "Alf alarm clock", "nothing important", 19.99)));
+
+        this.webTestClient.post().uri("/api/items")
+                .bodyValue(new Item("1", "Alf alarm clock", "nothing important", 19.99))
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody()
+                .consumeWith(document("post-new-item", preprocessResponse(prettyPrint())));
     }
 }
