@@ -23,6 +23,15 @@ public class InventoryService {
         return this.itemRepository.findAll();
     }
 
+    public Mono<Item> getItemFindById(String id) {
+        return this.itemRepository.findById(id);
+    }
+
+    public Mono<Item> getItemSave(Item item) {
+        return this.itemRepository.save(item);
+    }
+
+
     public Mono<Cart> getCart(String cartId) {
         return this.cartRepository.findById(cartId);
     }
