@@ -8,6 +8,10 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+  rsocket:
+    server:
+      port: 7000
+      transport: tcp
   main:
     allow-cricular-references: true
 
